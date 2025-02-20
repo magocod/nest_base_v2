@@ -1,10 +1,18 @@
-import { INestApplication, Module, ValidationPipe, VersioningType } from '@nestjs/common';
+import {
+  DynamicModule,
+  INestApplication,
+  Module,
+  ValidationPipe,
+  VersioningType,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { EnvConfiguration, JoiValidationSchema } from './config';
 import { CommonModule } from './common/common.module';
 import { UsersModule } from './users/users.module';
+import { CatsModule } from './cats/cats.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 // default config
 export const commonConfig = {
@@ -59,21 +67,28 @@ export const rabbitmqConfig = {
   mysql: false,
 };
 
-export function configBaseModules(config = commonConfig) {
-  const modules = [
+export function configAsyncBaseModules() {
+  // ...
+
+  return [
     ConfigModule.forRoot({
       load: [EnvConfiguration],
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       validationSchema: JoiValidationSchema,
     }),
   ];
+}
+
+export function configBaseModules(config = commonConfig) {
+  const modules: DynamicModule[] = [];
 
   if (config.postgres) {
     // TODO
   }
 
   if (config.mongodb) {
-    // TODO
+    const uri = process.env.MONGO_URL ? process.env.MONGO_URL : '';
+    modules.push(MongooseModule.forRoot(uri));
   }
 
   if (config.websocket) {
@@ -110,9 +125,11 @@ export function configApp(app: INestApplication) {
 
 @Module({
   imports: [
+    ...configAsyncBaseModules(),
     ...configBaseModules(),
     CommonModule,
     UsersModule,
+    CatsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

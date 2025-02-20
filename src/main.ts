@@ -14,6 +14,14 @@ async function bootstrap() {
     .setTitle('nest_base API')
     .setDescription('nest_base endpoints')
     .setVersion('1.0')
+    .addBearerAuth({
+      description: `[just text field] Please enter token in following format: Bearer <JWT>`,
+      name: 'Authorization',
+      bearerFormat: 'Bearer',
+      scheme: 'Bearer',
+      type: 'http',
+      in: 'Header',
+    })
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
@@ -29,7 +37,7 @@ async function bootstrap() {
   // @ts-expect-error
   await app.listen(process.env.PORT);
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+
   logger.log(`App running on http://localhost:${process.env.PORT}/api`);
 }
 void bootstrap();
