@@ -10,9 +10,9 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { EnvConfiguration, JoiValidationSchema } from './config';
 import { CommonModule } from './common/common.module';
-import { UsersModule } from './users/users.module';
 import { CatsModule } from './cats/cats.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from './auth/auth.module';
 
 // default config
 export const commonConfig = {
@@ -128,8 +128,8 @@ export function configApp(app: INestApplication) {
     ...configAsyncBaseModules(),
     ...configBaseModules(),
     CommonModule,
-    UsersModule,
     CatsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

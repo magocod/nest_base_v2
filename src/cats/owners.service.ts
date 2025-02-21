@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateOwnerDto } from './entities/create-owner.dto';
-import { UpdateOwnerDto } from './entities/update-owner.dto';
+import { CreateOwnerDto } from './dto/create-owner.dto';
+import { UpdateOwnerDto } from './dto/update-owner.dto';
 
 @Injectable()
 export class OwnersService {

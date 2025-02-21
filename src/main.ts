@@ -37,7 +37,6 @@ async function bootstrap() {
   // @ts-expect-error
   await app.listen(process.env.PORT);
 
-
   logger.log(`App running on http://localhost:${process.env.PORT}/api`);
 }
 void bootstrap();

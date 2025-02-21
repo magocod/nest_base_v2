@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { OwnersService } from './owners.service';
-import { CreateOwnerDto } from './entities/create-owner.dto';
-import { UpdateOwnerDto } from './entities/update-owner.dto';
+import { CreateOwnerDto } from './dto/create-owner.dto';
+import { UpdateOwnerDto } from './dto/update-owner.dto';
 
 @Controller('owners')
 export class OwnersController {

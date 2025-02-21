@@ -1,28 +1,27 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { Owner } from './owner.schema';
 
 export type CatDocument = HydratedDocument<Cat>;
 
 @Schema()
 export class Cat {
-  @Prop()
+  @Prop({ required: true })
   name: string;
 
-  @Prop()
+  @Prop({ required: true })
   age: number;
 
-  @Prop()
+  @Prop({ required: true })
   breed: string;
 
   @Prop({ required: false, default: false })
   isActive: boolean;
 
   @Prop({ type: [String], default: [] })
-  tags: string[];
+  tags?: string[];
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Owner', required: false })
-  owner: Owner;
+  owner?: mongoose.Types.ObjectId;
 }
 
 export const CatSchema = SchemaFactory.createForClass(Cat);
