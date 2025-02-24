@@ -13,6 +13,9 @@ import { CommonModule } from './common/common.module';
 import { CatsModule } from './cats/cats.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
+import { ViewsModule } from './views/views.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 // default config
 export const commonConfig = {
@@ -83,7 +86,23 @@ export function configBaseModules(config = commonConfig) {
   const modules: DynamicModule[] = [];
 
   if (config.postgres) {
-    // TODO
+    modules.push(
+      TypeOrmModule.forRoot({
+        type: 'postgres',
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT ? +process.env.DB_PORT : 0,
+        database: process.env.DB_NAME,
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        // logging: false,
+        // synchronize: false, // only for quick tests
+        // entities: [User, Role, Permission, Notification],
+        autoLoadEntities: true,
+        // example generate -> typeorm migration:create ./src/migration/UserCreate
+        // migrations: ['dist/migration/**/*.js'],
+        // migrations: [UserCreate1664658587799],
+      }),
+    );
   }
 
   if (config.mongodb) {
@@ -130,6 +149,8 @@ export function configApp(app: INestApplication) {
     CommonModule,
     CatsModule,
     AuthModule,
+    ViewsModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

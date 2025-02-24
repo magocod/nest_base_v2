@@ -4,6 +4,8 @@ import { Logger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { loggerMiddleware } from './common/middleware';
 
+import "reflect-metadata";
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('Bootstrap');
@@ -21,7 +23,9 @@ async function bootstrap() {
       scheme: 'Bearer',
       type: 'http',
       in: 'Header',
-    })
+    },
+      // 'JWT-auth'
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

@@ -2,28 +2,23 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToMany,
   CreateDateColumn,
   UpdateDateColumn,
-  // JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { TOPIC_TABLE } from '../notifications.contants';
+import { Notification } from './notification.entity';
 
-import { Role } from '../../roles/entities';
-
-@Entity({ name: 'permissions' })
-export class Permission {
+@Entity({ name: TOPIC_TABLE })
+export class Topic {
   @ApiProperty()
   @PrimaryGeneratedColumn()
   id!: number;
 
   @ApiProperty()
-  @Column('text')
+  @Column('text', { nullable: false })
   name!: string;
-
-  @ApiProperty()
-  @Column('text')
-  description!: string;
 
   @ApiProperty()
   @Column('bool', {
@@ -39,9 +34,8 @@ export class Permission {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @ApiProperty()
-  @ManyToMany(() => Role, (role: Role) => role.permissions)
-    // @JoinTable()
-  roles!: Role[];
+  @OneToMany(() => Notification, (notification) => notification.topic, {
+    onDelete: 'CASCADE',
+  })
+  notifications!: Notification;
 }
-
