@@ -6,23 +6,27 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { AdminCreateUserDto, AdminUpdateUserDto } from './dto';
+import { SimplePaginationDto } from '../../common/dtos';
+import { ApiVersion } from '../../app.constants';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('users')
+@ApiTags('Auth_users')
+@Controller({ path: 'users', version: ApiVersion.v1 })
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body() createUserDto: AdminCreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query() paginationDto: SimplePaginationDto) {
+    return this.usersService.findAll(paginationDto);
   }
 
   @Get(':id')
@@ -31,7 +35,7 @@ export class UsersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('id') id: string, @Body() updateUserDto: AdminUpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 

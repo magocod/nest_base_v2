@@ -6,12 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { PermissionsService } from './permissions.service';
-import { CreatePermissionDto } from './dto/create-permission.dto';
-import { UpdatePermissionDto } from './dto/update-permission.dto';
+import { CreatePermissionDto, UpdatePermissionDto } from './dto';
+import { SimplePaginationDto } from '../../common/dtos';
+import { Auth } from '../decorators';
+import { PermissionNames } from '../auth.constants';
+import { ApiVersion } from '../../app.constants';
 
-@Controller('permissions')
+@ApiTags('Auth_permissions')
+@Controller({ path: 'permissions', version: ApiVersion.v1 })
 export class PermissionsController {
   constructor(private readonly permissionsService: PermissionsService) {}
 
@@ -20,9 +26,10 @@ export class PermissionsController {
     return this.permissionsService.create(createPermissionDto);
   }
 
+  @Auth(PermissionNames.USER)
   @Get()
-  findAll() {
-    return this.permissionsService.findAll();
+  findAll(@Query() paginationDto: SimplePaginationDto) {
+    return this.permissionsService.findAll(paginationDto);
   }
 
   @Get(':id')

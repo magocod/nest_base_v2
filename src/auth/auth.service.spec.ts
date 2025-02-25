@@ -148,7 +148,7 @@ describe('AuthService', () => {
       expect(payload.id).toEqual(user.id);
     });
 
-    it('invalid function parameters',  () => {
+    it('invalid function parameters', () => {
       const data = {} as User;
 
       const payload = service.checkAuthStatus(data);

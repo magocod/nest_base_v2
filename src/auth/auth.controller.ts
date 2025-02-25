@@ -23,7 +23,6 @@ import { PermissionNames } from './auth.constants';
 import { ApiVersion } from '../app.constants';
 
 @ApiTags('Auth')
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
 @Controller({ path: 'auth', version: ApiVersion.v1 })
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

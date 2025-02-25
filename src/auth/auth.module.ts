@@ -41,7 +41,13 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     RolesController,
     PermissionsController,
   ],
-  providers: [AuthService, UsersService, RolesService, PermissionsService, JwtStrategy],
+  providers: [
+    AuthService,
+    UsersService,
+    RolesService,
+    PermissionsService,
+    JwtStrategy,
+  ],
   exports: [
     TypeOrmModule,
     JwtStrategy,

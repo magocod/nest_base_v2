@@ -10,7 +10,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { PASSWORD_PATTERN } from '../auth.constants';
 
 export class LoginUserDto {
-  @ApiProperty({ default: "example1@domain.com" })
+  @ApiProperty({ default: 'example1@domain.com' })
   @IsString()
   @IsEmail()
   email: string;

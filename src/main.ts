@@ -4,7 +4,7 @@ import { Logger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { loggerMiddleware } from './common/middleware';
 
-import "reflect-metadata";
+import 'reflect-metadata';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,14 +16,15 @@ async function bootstrap() {
     .setTitle('nest_base API')
     .setDescription('nest_base endpoints')
     .setVersion('1.0')
-    .addBearerAuth({
-      description: `[just text field] Please enter token in following format: Bearer <JWT>`,
-      name: 'Authorization',
-      bearerFormat: 'Bearer',
-      scheme: 'Bearer',
-      type: 'http',
-      in: 'Header',
-    },
+    .addBearerAuth(
+      {
+        description: `[just text field] Please enter token in following format: Bearer <JWT>`,
+        name: 'Authorization',
+        bearerFormat: 'Bearer',
+        scheme: 'Bearer',
+        type: 'http',
+        in: 'Header',
+      },
       // 'JWT-auth'
     )
     .build();

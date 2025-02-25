@@ -41,7 +41,6 @@ export class Permission {
 
   @ApiProperty()
   @ManyToMany(() => Role, (role: Role) => role.permissions)
-    // @JoinTable()
+  // @JoinTable()
   roles!: Role[];
 }
-

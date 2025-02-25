@@ -33,7 +33,7 @@ export class AuthService {
       const user = this.userRepository.create({
         ...userData,
         // password: bcrypt.hashSync(password, 10),
-        password
+        password,
       });
 
       await this.userRepository.save(user);
@@ -92,8 +92,8 @@ export class AuthService {
     const url = `http://example.com/auth/confirm?token=abc`;
     return {
       data,
-      url
-    }
+      url,
+    };
     // return this.emailQueue.add(EmailJobNames.basic, {
     //   log: true,
     //   options: {

@@ -13,7 +13,7 @@ export function generatePassword(): string {
     length: 7,
     memorable: false,
     pattern: undefined,
-    prefix: 'aA1*'
+    prefix: 'aA1*',
   });
 }
 
