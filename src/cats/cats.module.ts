@@ -11,6 +11,8 @@ import {
   Story,
   StorySchema,
 } from './entities';
+import { OwnersController } from './owners.controller';
+import { OwnersService } from './owners.service';
 
 @Module({
   imports: [
@@ -21,7 +23,8 @@ import {
       { name: Story.name, schema: StorySchema },
     ]),
   ],
-  controllers: [CatsController],
-  providers: [CatsService],
+  controllers: [CatsController, OwnersController],
+  providers: [CatsService, OwnersService],
+  exports: [CatsService, OwnersService],
 })
 export class CatsModule {}
