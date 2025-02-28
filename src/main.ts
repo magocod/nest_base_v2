@@ -38,6 +38,8 @@ async function bootstrap() {
     app.use(loggerMiddleware(reqLogger));
   }
 
+  app.enableCors();
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   await app.listen(process.env.PORT);
