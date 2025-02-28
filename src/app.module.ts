@@ -16,6 +16,9 @@ import { AuthModule } from './auth/auth.module';
 import { ViewsModule } from './views/views.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AudioModule } from './audio/audio.module';
+import { BullModule } from '@nestjs/bullmq';
+import { tr } from '@faker-js/faker';
 
 // default config
 export const commonConfig = {
@@ -24,6 +27,7 @@ export const commonConfig = {
   websocket: true,
   mysql: true,
   rabbitmq: true,
+  redis: true
 };
 
 // without db
@@ -33,6 +37,7 @@ export const withoutDbConfig = {
   postgres: false,
   mysql: false,
   rabbitmq: false,
+  redis: false,
 };
 
 // only postgresql
@@ -42,6 +47,7 @@ export const postgresConfig = {
   websocket: false,
   mysql: false,
   rabbitmq: false,
+  redis: false,
 };
 
 // only mongodb
@@ -51,6 +57,7 @@ export const mongoConfig = {
   websocket: false,
   mysql: false,
   rabbitmq: false,
+  redis: false,
 };
 
 // only mysql
@@ -60,6 +67,7 @@ export const mysqlConfig = {
   websocket: false,
   mongodb: false,
   rabbitmq: false,
+  redis: false,
 };
 
 export const rabbitmqConfig = {
@@ -68,8 +76,17 @@ export const rabbitmqConfig = {
   websocket: false,
   mongodb: false,
   mysql: false,
+  redis: false,
 };
 
+export const redisConfig = {
+  ...commonConfig,
+  postgres: true,
+  websocket: false,
+  mongodb: false,
+  mysql: false,
+  rabbitmq: false,
+};
 export function configAsyncBaseModules() {
   // ...
 
@@ -122,6 +139,22 @@ export function configBaseModules(config = commonConfig) {
     // TODO
   }
 
+  if (config.redis) {
+    modules.push(
+      BullModule.forRoot({
+        connection: {
+          host: process.env.REDIS_HOST,
+          port: process.env.REDIS_PORT ? +process.env.REDIS_PORT : 6379,
+          // password: process.env.REDIS_PASSWORD
+        }
+        // limiter: {
+        //   max: 1,
+        //   duration: 8000,
+        // },
+      }),
+    )
+  }
+
   return modules;
 }
 
@@ -151,6 +184,7 @@ export function configApp(app: INestApplication) {
     AuthModule,
     ViewsModule,
     NotificationsModule,
+    AudioModule,
   ],
   controllers: [AppController],
   providers: [AppService],
